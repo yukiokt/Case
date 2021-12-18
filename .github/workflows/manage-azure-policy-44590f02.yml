@@ -1,0 +1,32 @@
+name: manage-azure-policy-44590f02
+on:
+  workflow_dispatch:
+    inputs:
+      remarks:
+        description: 'Reason for triggering the workflow run'
+        required: false
+        default: 'Updating Azure Policies'
+
+
+## Uncomment the following if you wish to automatically trigger workflow run with every commit
+#
+#  push:
+#    paths:
+#      - '20211218_yukiokutani/policies/仮想マシンに対して_Azure_Backup_を有効にする必要がある_013e242c-8828-4970-87b3-ab247555486d/**'
+#      - .github/workflows/manage-azure-policy-44590f02.yml
+jobs:
+  apply-azure-policy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{secrets.AZURE_CREDENTIALS_44590f02}}
+        allow-no-subscriptions: true
+    - name: Create or Update Azure Policies
+      uses: azure/manage-azure-policy@v0
+      with:
+        paths: |
+          20211218_yukiokutani/policies/仮想マシンに対して_Azure_Backup_を有効にする必要がある_013e242c-8828-4970-87b3-ab247555486d/**
